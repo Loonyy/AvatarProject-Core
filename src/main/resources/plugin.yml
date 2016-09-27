@@ -2,3 +2,4 @@ name: AvatarProject
 main: com.avatarproject.core.AvatarProjectCore
 version: ${project.version}
 authors: [avatarproject]
+depend: [AbilityAPI]
