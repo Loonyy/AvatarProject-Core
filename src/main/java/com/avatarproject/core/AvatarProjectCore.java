@@ -60,6 +60,7 @@ public class AvatarProjectCore extends JavaPlugin {
 		getLogger().info("Running clean-up tasks...");
 		RegenBlockState.revertAll();
 		TempFallingBlock.removeAllFallingBlocks();
+		BaseAbilityProvider.unregisterAbilities();
 		getLogger().info("Clean-up tasks complete!");
 		getLogger().info("Thanks for using AvatarProject-Core!");
 	}

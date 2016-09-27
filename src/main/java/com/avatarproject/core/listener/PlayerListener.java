@@ -25,6 +25,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.avatarproject.core.AvatarProjectCore;
+import com.avatarproject.core.exception.SlotOutOfBoundsException;
 import com.avatarproject.core.player.APCPlayer;
 import com.avatarproject.core.storage.UserCache;
 
@@ -39,6 +40,12 @@ public class PlayerListener implements Listener {
 		Player player = event.getPlayer();
 		UserCache.addUserAsync(player);
 		new APCPlayer(player);
+		
+		try {
+			APCPlayer.get(player).setAbility(0, "fireblast");
+		} catch (SlotOutOfBoundsException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)

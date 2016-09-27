@@ -146,6 +146,9 @@ public abstract class BaseAbilityProvider implements IAbility, AbilityProvider<A
 		return ABILITIES;
 	}
 
+	/**
+	 * Registers all the abilities in AvatarProject-Core
+	 */
 	public static void registerAbilities() {
 		registerAbilities(AvatarProjectCore.getInstance(), "com.avatarproject");
 	}
@@ -159,6 +162,7 @@ public abstract class BaseAbilityProvider implements IAbility, AbilityProvider<A
 		ABILITIES.clear();
 		ClassLoader loader = plugin.getClass().getClassLoader();
 		try {
+			//TODO update to Java 8 streams
 			for (final ClassInfo info : ClassPath.from(loader).getAllClasses()) {
 				if (!info.getPackageName().startsWith(packageName)) {
 					continue;
@@ -171,6 +175,15 @@ public abstract class BaseAbilityProvider implements IAbility, AbilityProvider<A
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Unregisters all AbilityProviders registered with AvatarProject-Core
+	 */
+	public static void unregisterAbilities() {
+		for (BaseAbilityProvider bap : ABILITIES.values()) {
+			AbilityAPI.get().getRegistry().getProviders().remove(bap);
 		}
 	}
 }

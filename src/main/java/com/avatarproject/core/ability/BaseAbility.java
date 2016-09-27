@@ -17,21 +17,28 @@
  *******************************************************************************/
 package com.avatarproject.core.ability;
 
-import com.avatarproject.core.element.Element;
-import com.avatarproject.core.exception.AbilityRegisteredException;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
-public abstract class FireAbilityProvider extends BaseAbilityProvider {
+import com.github.abilityapi.Ability;
+
+public abstract class BaseAbility extends Ability implements IBaseAbility {
 
 	/**
-	 * Registers a fire ability
-	 * @param id Internal ID to be assigned to the ability
-	 * @param name Name of the ability that will be displayed in messages, etc
-	 * @param description Description of the ability that will be displayed in messages, etc
-	 * @param passive Boolean if the ability does damage or not
-	 * @throws AbilityRegisteredException Thrown if the ability is already registered
+	 * Apply damage to an entity
+	 * Fires {@link EntityDamageByEntityEvent}
+	 * @param attacker LivingEntity causing the damage
+	 * @param victim LivingEntity being damaged
+	 * @param damage Double amount of damage being dealt to the victim
 	 */
-	public FireAbilityProvider(String id, String name, String description, boolean passive) throws AbilityRegisteredException {
-		super(id, name, description, Element.FIRE, passive);
+	@SuppressWarnings("deprecation")
+	public void damage(LivingEntity attacker, LivingEntity victim, double damage) {
+		EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(attacker, victim, DamageCause.CUSTOM, damage);
+    	if (!event.isCancelled()) {
+    		damage = event.getDamage();
+    		victim.damage(damage, attacker);
+    		victim.setLastDamageCause(event);
+    	}
 	}
-
 }
