@@ -19,6 +19,7 @@ package com.avatarproject.core;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.avatarproject.core.ability.BaseAbilityProvider;
 import com.avatarproject.core.block.RegenBlockState;
 import com.avatarproject.core.block.TempFallingBlock;
 import com.avatarproject.core.element.Element;
@@ -50,6 +51,8 @@ public class AvatarProjectCore extends JavaPlugin {
 		
 		new FallingBlockListener(this);
 		new PlayerListener(this);
+		
+		BaseAbilityProvider.registerAbilities();
 	}
 	
 	@Override

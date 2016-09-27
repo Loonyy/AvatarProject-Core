@@ -28,7 +28,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.avatarproject.core.AvatarProjectCore;
-import com.avatarproject.core.ability.BaseAbility;
+import com.avatarproject.core.ability.BaseAbilityProvider;
 import com.avatarproject.core.element.Element;
 import com.avatarproject.core.exception.SlotOutOfBoundsException;
 import com.avatarproject.core.exception.TooManyBindsException;
@@ -287,7 +287,7 @@ public class APCPlayer extends Serializer {
 		if (slot < 0 || slot > 8) {
 			throw new SlotOutOfBoundsException("Error when trying to bind ability to slot " + slot + "!");
 		}
-		if (ability != null && !BaseAbility.isValidAbility(ability)) {
+		if (ability != null && !BaseAbilityProvider.isValidAbility(ability)) {
 			return;
 		}
 		getAbilities().put(slot, ability);

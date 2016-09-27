@@ -17,14 +17,23 @@
  *******************************************************************************/
 package com.avatarproject.core.ability;
 
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
+import com.avatarproject.core.AvatarProjectCore;
 import com.avatarproject.core.element.Element;
 import com.avatarproject.core.exception.AbilityRegisteredException;
+import com.github.abilityapi.Ability;
+import com.github.abilityapi.AbilityAPI;
+import com.github.abilityapi.AbilityProvider;
+import com.google.common.reflect.ClassPath;
+import com.google.common.reflect.ClassPath.ClassInfo;
 
-public abstract class BaseAbility implements IAbility {
+public abstract class BaseAbilityProvider implements IAbility, AbilityProvider<Ability> {
 
-	private static final HashMap<String, BaseAbility> ABILITIES = new HashMap<>();
+	private static final HashMap<String, BaseAbilityProvider> ABILITIES = new HashMap<>();
 
 	private String id;
 	private String name;
@@ -41,7 +50,7 @@ public abstract class BaseAbility implements IAbility {
 	 * @param passive Boolean if the ability does damage or not
 	 * @throws AbilityRegisteredException Thrown if the ability is already registered
 	 */
-	public BaseAbility(String id, String name, String description, Element element, boolean passive) throws AbilityRegisteredException {
+	public BaseAbilityProvider(String id, String name, String description, Element element, boolean passive) throws AbilityRegisteredException {
 		if (ABILITIES.containsKey(id)) {
 			throw new AbilityRegisteredException("Ability with id " + id + " is already registered!");
 		}
@@ -50,6 +59,7 @@ public abstract class BaseAbility implements IAbility {
 		setDescription(description);
 		setElement(element);
 		setPassive(passive);
+		System.out.println("Registering new ability id: " + id + " name: " + name);
 		ABILITIES.put(id, this);
 	}
 
@@ -132,7 +142,35 @@ public abstract class BaseAbility implements IAbility {
 	 * Gets the HashMap containing ability IDs and Ability instances
 	 * @return
 	 */
-	public static HashMap<String, BaseAbility> getAbilities() {
+	public static HashMap<String, BaseAbilityProvider> getAbilities() {
 		return ABILITIES;
+	}
+
+	public static void registerAbilities() {
+		registerAbilities(AvatarProjectCore.getInstance(), "com.avatarproject");
+	}
+	
+	/**
+	 * Register all the abilities
+	 * @param plugin JavaPlugin that the abilities belong to
+	 * @param packageName Package that the plugin belongs in
+	 */
+	public static void registerAbilities(JavaPlugin plugin, String packageName) {
+		ABILITIES.clear();
+		ClassLoader loader = plugin.getClass().getClassLoader();
+		try {
+			for (final ClassInfo info : ClassPath.from(loader).getAllClasses()) {
+				if (!info.getPackageName().startsWith(packageName)) {
+					continue;
+				}
+				Class<?> c = info.load();
+				if (!AbilityProvider.class.isAssignableFrom(c) || c.isInterface() || Modifier.isAbstract(c.getModifiers())) {
+					continue;
+				}
+				AbilityAPI.get().getRegistry().register((AbilityProvider<?>) c.newInstance());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

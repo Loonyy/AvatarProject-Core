@@ -20,9 +20,9 @@ package com.avatarproject.core.ability;
 import com.avatarproject.core.element.Element;
 import com.avatarproject.core.exception.AbilityRegisteredException;
 
-public abstract class FireAbility extends BaseAbility {
+public abstract class FireAbilityProvider extends BaseAbilityProvider {
 
-	public FireAbility(String id, String name, String description, boolean passive) throws AbilityRegisteredException {
+	public FireAbilityProvider(String id, String name, String description, boolean passive) throws AbilityRegisteredException {
 		super(id, name, description, Element.FIRE, passive);
 	}
 

@@ -34,7 +34,7 @@
     <dependency>
       <groupId>com.github</groupId>
       <artifactId>abilityapi</artifactId>
-      <version>*</version>
+      <version>LATEST</version>
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/AbilityAPI.jar</systemPath>
     </dependency>
