@@ -15,23 +15,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.avatarproject.core.abilityapi.condition;
+package com.avatarproject.core.configuration;
 
-import org.bukkit.entity.Player;
+import java.io.File;
 
-import com.avatarproject.core.ability.BaseAbilityProvider;
-import com.avatarproject.core.player.APCPlayer;
+import com.avatarproject.core.AvatarProjectCore;
 
-public class BindCondition {
-
-	/**
-	 * Checks if a player has the specified ability bound on the slot they have selected
-	 * @param player Player to check
-	 * @param baseAbilityProvider Ability to check
-	 * @return Boolean true if the player has the ability bound
-	 */
-	public boolean bind(Player player, BaseAbilityProvider baseAbilityProvider) {
-		String ability = APCPlayer.get(player).getAbility(player.getInventory().getHeldItemSlot());
-		return ability != null && ability.equals(baseAbilityProvider.getId());
+public class LanguageConfig extends Config {
+	
+	private static Config instance;
+	
+	public LanguageConfig() {
+		super(AvatarProjectCore.getInstance(), new File("en_US.yml"));
+		get().addDefault("General.Prefix", "&8[&3AvatarProject&8]&r ");
+		get().addDefault("General.NoPermission", "&cSorry but you do not have the permission required to do that!");
+		save();
+		instance = this;
+	}
+	
+	public static Config getInstance() {
+		return instance;
 	}
 }

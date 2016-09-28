@@ -24,14 +24,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 
-import com.avatarproject.core.AvatarProjectCore;
 import com.avatarproject.core.block.TempFallingBlock;
 
 public class FallingBlockListener implements Listener {
-
-	public FallingBlockListener (AvatarProjectCore plugin){
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void EntityChangeBlockEvent(EntityChangeBlockEvent event) {

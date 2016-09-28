@@ -29,7 +29,6 @@ import com.github.abilityapi.Ability;
 import com.github.abilityapi.AbilityAPI;
 import com.github.abilityapi.AbilityProvider;
 import com.google.common.reflect.ClassPath;
-import com.google.common.reflect.ClassPath.ClassInfo;
 
 public abstract class BaseAbilityProvider implements IAbility, AbilityProvider<Ability> {
 
@@ -162,17 +161,25 @@ public abstract class BaseAbilityProvider implements IAbility, AbilityProvider<A
 		ABILITIES.clear();
 		ClassLoader loader = plugin.getClass().getClassLoader();
 		try {
-			//TODO update to Java 8 streams
-			for (final ClassInfo info : ClassPath.from(loader).getAllClasses()) {
+			ClassPath.from(loader).getAllClasses().stream()
+			.filter(info -> {
 				if (!info.getPackageName().startsWith(packageName)) {
-					continue;
+					return false;
 				}
 				Class<?> c = info.load();
 				if (!AbilityProvider.class.isAssignableFrom(c) || c.isInterface() || Modifier.isAbstract(c.getModifiers())) {
-					continue;
+					return false;
 				}
-				AbilityAPI.get().getRegistry().register((AbilityProvider<?>) c.newInstance());
-			}
+				return true;
+			})
+			.forEach(info -> {
+				Class<?> c = info.load();
+				try {
+					AbilityAPI.get().getRegistry().register((AbilityProvider<?>) c.newInstance());
+				} catch (InstantiationException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -24,16 +24,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import com.avatarproject.core.AvatarProjectCore;
 import com.avatarproject.core.exception.SlotOutOfBoundsException;
 import com.avatarproject.core.player.APCPlayer;
 import com.avatarproject.core.storage.UserCache;
 
 public class PlayerListener implements Listener {
-
-	public PlayerListener (AvatarProjectCore plugin){
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onLogin(PlayerLoginEvent event) {

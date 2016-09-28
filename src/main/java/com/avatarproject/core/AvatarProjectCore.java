@@ -22,6 +22,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.avatarproject.core.ability.BaseAbilityProvider;
 import com.avatarproject.core.block.RegenBlockState;
 import com.avatarproject.core.block.TempFallingBlock;
+import com.avatarproject.core.command.APCommands;
+import com.avatarproject.core.configuration.Config;
 import com.avatarproject.core.element.Element;
 import com.avatarproject.core.listener.FallingBlockListener;
 import com.avatarproject.core.listener.PlayerListener;
@@ -45,13 +47,16 @@ public class AvatarProjectCore extends JavaPlugin {
 		new UserCache();
 		Serializer.setLogger(this.getLogger());
 		
+		new APCommands();
+		
 		Element.init();
 		
 		RegenBlockState.manage();
 		
-		new FallingBlockListener(this);
-		new PlayerListener(this);
+		getServer().getPluginManager().registerEvents(new FallingBlockListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 		
+		Config.loadConfigurations();
 		BaseAbilityProvider.registerAbilities();
 	}
 	

@@ -27,6 +27,7 @@ public abstract class BaseAbility extends Ability implements IBaseAbility {
 
 	/**
 	 * Apply damage to an entity
+	 * Cancels if the victim is the attacker
 	 * Fires {@link EntityDamageByEntityEvent}
 	 * @param attacker LivingEntity causing the damage
 	 * @param victim LivingEntity being damaged
@@ -34,6 +35,9 @@ public abstract class BaseAbility extends Ability implements IBaseAbility {
 	 */
 	@SuppressWarnings("deprecation")
 	public void damage(LivingEntity attacker, LivingEntity victim, double damage) {
+		if (attacker.getEntityId() == victim.getEntityId()) {
+			return;
+		}
 		EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(attacker, victim, DamageCause.CUSTOM, damage);
     	if (!event.isCancelled()) {
     		damage = event.getDamage();

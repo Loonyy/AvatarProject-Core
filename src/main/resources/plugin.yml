@@ -3,3 +3,14 @@ main: com.avatarproject.core.AvatarProjectCore
 version: ${project.version}
 authors: [avatarproject]
 depend: [AbilityAPI]
+
+commands:
+  avatar:
+    usage: /avatar
+    aliases: [bending, bend, b, thelastairbender, legendofkorra, lok, korra]
+    description: Initial command for AvatarProject-Core
+
+permissions:
+  avatar.admin:
+    default: OP
+    description: Admin access to all of AvatarProject-Core

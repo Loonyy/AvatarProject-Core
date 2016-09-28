@@ -15,23 +15,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.avatarproject.core.abilityapi.condition;
+package com.avatarproject.core.configuration;
 
-import org.bukkit.entity.Player;
+import org.bukkit.configuration.file.FileConfiguration;
 
-import com.avatarproject.core.ability.BaseAbilityProvider;
-import com.avatarproject.core.player.APCPlayer;
-
-public class BindCondition {
+public interface IConfig {
 
 	/**
-	 * Checks if a player has the specified ability bound on the slot they have selected
-	 * @param player Player to check
-	 * @param baseAbilityProvider Ability to check
-	 * @return Boolean true if the player has the ability bound
+	 * Gets the {@link FileConfiguration} instance of the configuration file
+	 * @return FileConfiguration instance of the configuration
 	 */
-	public boolean bind(Player player, BaseAbilityProvider baseAbilityProvider) {
-		String ability = APCPlayer.get(player).getAbility(player.getInventory().getHeldItemSlot());
-		return ability != null && ability.equals(baseAbilityProvider.getId());
-	}
+	public FileConfiguration get();
+	
+	/**
+	 * Reloads the configuration file
+	 */
+	public void reload();
+	
+	/**
+	 * Saves the configuration file
+	 */
+	public void save();
+	
+	/**
+	 * Deletes the configuration file
+	 * @return Boolean true if the file is deleted
+	 */
+	public boolean delete();
+	
 }
