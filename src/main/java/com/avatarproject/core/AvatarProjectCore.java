@@ -17,6 +17,8 @@
  *******************************************************************************/
 package com.avatarproject.core;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.avatarproject.core.ability.BaseAbilityProvider;
@@ -27,6 +29,7 @@ import com.avatarproject.core.configuration.Config;
 import com.avatarproject.core.element.Element;
 import com.avatarproject.core.listener.FallingBlockListener;
 import com.avatarproject.core.listener.PlayerListener;
+import com.avatarproject.core.player.APCPlayer;
 import com.avatarproject.core.storage.Serializer;
 import com.avatarproject.core.storage.UserCache;
 
@@ -58,6 +61,10 @@ public class AvatarProjectCore extends JavaPlugin {
 		
 		Config.loadConfigurations();
 		BaseAbilityProvider.registerAbilities();
+		
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			new APCPlayer(player);
+		}
 	}
 	
 	@Override
@@ -66,6 +73,7 @@ public class AvatarProjectCore extends JavaPlugin {
 		RegenBlockState.revertAll();
 		TempFallingBlock.removeAllFallingBlocks();
 		BaseAbilityProvider.unregisterAbilities();
+		APCPlayer.unloadAll();
 		getLogger().info("Clean-up tasks complete!");
 		getLogger().info("Thanks for using AvatarProject-Core!");
 	}

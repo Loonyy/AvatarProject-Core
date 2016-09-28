@@ -25,7 +25,23 @@ public enum Strings {
 	
 	//General
 	PLUGIN_PREFIX ("General.PluginPrefix"),
-	NO_PERMISSION ("General.NoPermission");
+	NO_PERMISSION ("General.NoPermission"),
+	
+	//COMMANDS
+	COMMAND_HELP_TIP ("Command.HelpTip"),
+	COMMAND_TITLE ("Command.Title"),
+	COMMAND_UNKNOWN ("Command.Unknown"),
+	COMMAND_USAGE ("Command.Usage"),
+	
+	COMMAND_HELP_TITLE ("Command.Help.Title"),
+	
+	COMMAND_CHOOSE_SELF ("Command.Choose.Self", new String[] {"%element%"}),
+	COMMAND_CHOOSE_OTHER_SENDER ("Command.Choose.Other.Sender", new String[] {"%player%", "%element%"}),
+	COMMAND_CHOOSE_OTHER_PLAYER ("Command.Choose.Other.Player", new String[] {"%sender%", "%element%"}),
+	
+	COMMAND_ERROR ("Command.Error.Error"),
+	COMMAND_ERROR_INVALID_PLAYER ("Command.Error.Invalid.Player"),
+	COMMAND_ERROR_INVALID_ELEMENT ("Command.Error.Invalid.Element");
 	
 	private String path;
 	private String[] args;

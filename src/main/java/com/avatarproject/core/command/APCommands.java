@@ -40,6 +40,8 @@ public class APCommands {
 		CommandExecutor exe;
 
 		new HelpCommand();
+		
+		new ChooseCommand();
 
 		exe = new CommandExecutor() {
 			@Override
@@ -50,7 +52,7 @@ public class APCommands {
 					}
 
 					if (args.length == 0) {
-						s.sendMessage(Strings.PLUGIN_PREFIX + "Help coming soon!");
+						s.sendMessage(Strings.COMMAND_HELP_TIP.toString(true));
 						return true;
 					}
 
@@ -62,9 +64,9 @@ public class APCommands {
 						}
 					}
 
-					s.sendMessage(Strings.PLUGIN_PREFIX + "Unknown Command!");
+					s.sendMessage(Strings.COMMAND_UNKNOWN.toString(true));
 				} catch (Exception e) {
-					s.sendMessage(Strings.PLUGIN_PREFIX + "Error when executing command!");
+					s.sendMessage(Strings.COMMAND_ERROR.toString(true));
 					StringBuilder builder = new StringBuilder();
 					builder.append(AvatarProjectCore.getInstance().getDescription().getName());
 					builder.append(" Command Error:");

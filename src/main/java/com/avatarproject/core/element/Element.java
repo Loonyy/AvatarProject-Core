@@ -142,6 +142,14 @@ public class Element {
 	private void setParent(Element parent) {
 		this.parent = parent;
 	}
+	
+	/**
+	 * Gets if an element is a sub-element
+	 * @return Boolean true if the element has a parent element
+	 */
+	public boolean isSub() {
+		return getParent() != null;
+	}
 
 	/**
 	 * Gets the ChatColor associated with this element
@@ -160,13 +168,22 @@ public class Element {
 	}
 	
 	/**
+	 * Gets a formatted element name
+	 * Includes color prefix
+	 * @return String fancy name of element
+	 */
+	public String getFancyName() {
+		return getColor() + getName();
+	}
+	
+	/**
 	 * Gets an Element object based on the provided id
 	 * @param id ID of the element
 	 * @return Element if exists
 	 */
 	public static Element fromString(String id) {
-		if (ELEMENTS.containsKey(id)) {
-			return ELEMENTS.get(id);
+		if (ELEMENTS.containsKey(id.toLowerCase())) {
+			return ELEMENTS.get(id.toLowerCase());
 		}
 		return null;
 	}

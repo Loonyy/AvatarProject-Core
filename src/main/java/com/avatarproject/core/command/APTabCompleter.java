@@ -79,7 +79,7 @@ public class APTabCompleter implements TabCompleter {
 								String[] completers = command.getCompleters()[(args.length - 2)];
 								if (Arrays.asList(completers).contains("%custom")) {
 									completers = (String[]) ArrayUtils.removeElement(completers, "%custom");
-									completers = (String[]) ArrayUtils.addAll(completers, command.tabComplete(args));
+									completers = (String[]) ArrayUtils.addAll(completers, command.tabComplete(sender, args));
 								}
 								if (Arrays.asList(completers).contains("%player")) {
 									completers = (String[]) ArrayUtils.removeElement(completers, "%player");

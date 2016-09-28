@@ -27,8 +27,27 @@ public class LanguageConfig extends Config {
 	
 	public LanguageConfig() {
 		super(AvatarProjectCore.getInstance(), new File("en_US.yml"));
+		
+		//General
 		get().addDefault("General.Prefix", "&8[&3AvatarProject&8]&r ");
 		get().addDefault("General.NoPermission", "&cSorry but you do not have the permission required to do that!");
+		
+		//Commands
+		get().addDefault("Command.HelpTip", "&7Use '&a/avatar help&7' for help!");
+		get().addDefault("Command.Title", "&8=====: &3AvatarProject Core &8:=====");
+		get().addDefault("Command.Unknown", "&7Unknown command! Use '&a/avatar help&7' to view all commands!");
+		get().addDefault("Command.Usage", "&3Usage: &f");
+		
+		get().addDefault("Command.Help.Title", "&aCommands: <required> [optional]");
+		
+		get().addDefault("Command.Choose.Self", "&7You have set your element as &f%element%&7!");
+		get().addDefault("Command.Choose.Other.Sender", "&7You have set &f%player%&7's element to &f%element%&7!");
+		get().addDefault("Command.Choose.Other.Player", "&f%sender%&7 has set your element to &f%element%&7!");
+		
+		get().addDefault("Command.Error.Error", "&7Uh oh, something went wrong when trying to execute that command!");
+		get().addDefault("Command.Error.Invalid.Player", "&cCouldn't find a Player with that name!");
+		get().addDefault("Command.Error.Invalid.Element", "&7That isn't a valid Element!");
+		
 		save();
 		instance = this;
 	}

@@ -235,6 +235,15 @@ public class APCPlayer extends Serializer {
 	public boolean hasElement(Element element) {
 		return getElement().contains(element.toString());
 	}
+	
+	/**
+	 * Sets the APCPlayers element to a single element
+	 * @param element Element you wish to give t he APCPlayer
+	 */
+	public void setElement(Element element) {
+		getElement().clear();
+		addElement(element);
+	}
 
 	/**
 	 * Adds an element(s) to the APCPlayer
@@ -372,6 +381,16 @@ public class APCPlayer extends Serializer {
 			}.runTaskLaterAsynchronously(AvatarProjectCore.getInstance(), 60*20l);
 		}
 		return PLAYERS.get(uuid);
+	}
+	
+	/**
+	 * Unloads the all the loaded APCPlayers and serializes them
+	 */
+	public static void unloadAll() {
+		for (APCPlayer apcp : PLAYERS.values()) {
+			apcp.unload();
+		}
+		PLAYERS.clear();
 	}
 
 	/**

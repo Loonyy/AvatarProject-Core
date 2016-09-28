@@ -37,8 +37,6 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public abstract class APCommand implements IAPCommand {
-
-	//TODO add documentation
 	
 	private final String name;
 
@@ -92,20 +90,41 @@ public abstract class APCommand implements IAPCommand {
 
 	@Override
 	public void help(CommandSender sender, boolean description) {
-		sender.sendMessage("Usage: " + this.properUse);
+		sender.sendMessage(Strings.COMMAND_USAGE.toString() + this.properUse);
 		if (description) {
 			sender.sendMessage(ChatColor.GRAY + this.description);
 		}
 	}
 
+	/**
+	 * Checks if the sender has the required permission for this command
+	 * Permission format is "avatar.command.####"
+	 * @param sender CommandSender to check the permission for
+	 * @return Boolean true if the sender has permission
+	 */
 	protected boolean hasPermission(CommandSender sender) {
 		return hasPermission(sender, null);
 	}
 	
+	/**
+	 * Checks if the sender has the required permission for this command with additional permission
+	 * Permission format is "avatar.command.####.####"
+	 * @param sender CommandSender to check the permission for
+	 * @param extra String additional string to append on the end of the existing permission
+	 * @return Boolean true if the sender has permission
+	 */
 	protected boolean hasPermission(CommandSender sender, String extra) {
 		return hasPermission(sender, extra, true);
 	}
 
+	/**
+	 * Checks if the sender has the required permission for this command with additional permission
+	 * Permission format is "avatar.command.####.####"
+	 * @param sender CommandSender to check the permission for
+	 * @param extra String additional string to append on the end of the existing permission
+	 * @param notify Boolean send message to sender if they do not have required permission
+	 * @return Boolean true if the sender has the permission
+	 */
 	protected boolean hasPermission(CommandSender sender, String extra, boolean notify) {
 		StringBuilder perm = new StringBuilder("avatar.command.").append(name);
 		if (extra != null) {
@@ -121,6 +140,14 @@ public abstract class APCommand implements IAPCommand {
 		}
 	}
 
+	/**
+	 * Checks if the amount of arguments passed in the command are within a range
+	 * @param sender CommandSender sender of the command
+	 * @param size Integer amount of arguments
+	 * @param min Integer minimum expected arguments
+	 * @param max Integer maximum expected arguments
+	 * @return Boolean true if the size is within the minimum and maximum expected arguments
+	 */
 	public boolean correctLength(CommandSender sender, int size, int min, int max) {
 		if (size < min || size > max) {
 			help(sender, false);
@@ -130,6 +157,11 @@ public abstract class APCommand implements IAPCommand {
 		}
 	}
 
+	/**
+	 * Checks if the sender is a {@link Player}
+	 * @param sender CommandSender to check
+	 * @return Boolean true of the sender is a {@link Player}
+	 */
 	public boolean isPlayer(CommandSender sender) {
 		if (sender instanceof Player) {
 			return true;
@@ -139,6 +171,11 @@ public abstract class APCommand implements IAPCommand {
 		}
 	}
 
+	/**
+	 * Checks if a given string is numerical
+	 * @param id String to check
+	 * @return Boolean true if the string is numerical
+	 */
 	public boolean isNumeric(String id) {
 		NumberFormat formatter = NumberFormat.getInstance();
 		ParsePosition pos = new ParsePosition(0);
@@ -146,6 +183,11 @@ public abstract class APCommand implements IAPCommand {
 		return id.length() == pos.getIndex();
 	}
 
+	/**
+	 * Gets an {@link OfflinePlayer} instance of a player if they have played on the server
+	 * @param name String name of the player
+	 * @return {@link OfflinePlayer} instance of a player from a name
+	 */
 	public OfflinePlayer getPlayer(String name) {
 		if (name.length() > 16) {
 			return null;
@@ -171,6 +213,11 @@ public abstract class APCommand implements IAPCommand {
 		return null;
 	}
 
+	/**
+	 * Gets an {@link OfflinePlayer} instance of a player if they have played on the server
+	 * @param uuid UUID of the player
+	 * @return {@link OfflinePlayer} instance of a player from a UUID
+	 */
 	public OfflinePlayer getPlayerUUID(UUID uuid) {
 		Player p = Bukkit.getPlayer(uuid);
 		if (p != null) {
@@ -187,10 +234,23 @@ public abstract class APCommand implements IAPCommand {
 		return null;
 	}
 	
-	protected String[] tabComplete(String[] args) {
+	/**
+	 * Gets the auto-complete variables when tabbing on a command
+	 * @param sender CommandSender sender of the command
+	 * @param args String[] args to be provided
+	 * @return String[] args to be provided
+	 */
+	protected String[] tabComplete(CommandSender sender, String[] args) {
 		return null;
 	}
 	
+	/**
+	 * Gets an array of {@link TextComponent}s for a page
+	 * @param title String title that should be displayed
+	 * @param page Integer page to be displayed
+	 * @param entries List<TextComponent> all possible entries for all pages
+	 * @return List<TextComponent> with entries on a specific page
+	 */
 	public List<TextComponent> getPage(String title, int page, List<TextComponent> entries) {
 		List<TextComponent> strings = new ArrayList<>();
 
@@ -222,7 +282,7 @@ public abstract class APCommand implements IAPCommand {
 			page = maxPage;
 		}
 		
-		strings.add(new TextComponent("Some title here" + ChatColor.DARK_GRAY + " [" + ChatColor.GRAY + (page + 1) + "/" + (maxPage + 1) + ChatColor.DARK_GRAY + "]"));
+		strings.add(new TextComponent(Strings.COMMAND_TITLE.toString() + ChatColor.DARK_GRAY + " [" + ChatColor.GRAY + (page + 1) + "/" + (maxPage + 1) + ChatColor.DARK_GRAY + "]"));
 		strings.add(new TextComponent(title));
 		
 		pages.get(page).stream().forEach(textcomponent -> strings.add(textcomponent));

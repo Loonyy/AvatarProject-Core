@@ -26,6 +26,8 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.avatarproject.core.lang.Strings;
+
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -74,7 +76,7 @@ public class HelpCommand extends APCommand {
 			if (args.size() > 0 && isNumeric(args.get(0))) {
 				page = Integer.valueOf(args.get(0)) - 1;
 			}
-			for (TextComponent tc : getPage("Command Help!", page, neworder)) {
+			for (TextComponent tc : getPage(Strings.COMMAND_HELP_TITLE.toString(), page, neworder)) {
 				player.spigot().sendMessage(tc);
 			}
 			return;
@@ -89,16 +91,14 @@ public class HelpCommand extends APCommand {
 	}
 	
 	private boolean hasPermissionHelp(CommandSender sender, String permission) {
-		return sender.hasPermission("horses.command." + permission);
+		return sender.hasPermission("avatar.command." + permission);
 	}
 	
 	@Override
-	public String[] tabComplete(String[] args) {
+	public String[] tabComplete(CommandSender sender, String[] args) {
 		if (args.length == 2) {
 			List<String> cmds = new ArrayList<>();
-			for (APCommand command : instances.values()) {
-				cmds.add(command.getName());
-			}
+			instances.values().stream().filter(command -> hasPermission(sender, command.getName())).forEach(command -> cmds.add(command.getName()));
 			return cmds.toArray(new String[cmds.size()]);
 		}
 		return null;
