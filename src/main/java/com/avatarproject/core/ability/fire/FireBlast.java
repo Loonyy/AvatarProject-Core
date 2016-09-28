@@ -29,49 +29,49 @@ public class FireBlast extends FireAbility {
 	private Location location;
 	private double damage;
 	private int fireTicks;
-	
+
 	public FireBlast(Player player) {
 		this.player = player;
 		this.location = player.getEyeLocation().clone();
 		this.damage = 1;
 		this.fireTicks = 20;
 	}
-	
+
 	@Override
 	public Player getPlayer() {
 		return player;
 	}
-	
+
 	@Override
 	public Location getLocation() {
 		return location;
 	}
-	
+
 	@Override
 	public long getExpireTicks() {
 		return 20;
 	}
 
 	@Override
-    public void start() {
-		
-    }
-	
-    @Override
-    public void stop() {
-    	
-    }
+	public void start() {
+
+	}
 
 	@Override
-    public void update() {
-        location.add(location.getDirection().multiply(1));
-        playSound(location);
-        playParticleEffect(location);
-        location.getWorld().getNearbyEntities(location, 1, 1, 1).stream().filter(entity -> entity instanceof LivingEntity).forEach(entity -> {
-        	damage(player, (LivingEntity) entity, damage);
-        	ignite((LivingEntity) entity, fireTicks);
-        });
-        stop();
-    }
+	public void stop() {
+
+	}
+
+	@Override
+	public void update() {
+		location.add(location.getDirection().multiply(1));
+		playSound(location);
+		playParticleEffect(location);
+		location.getWorld().getNearbyEntities(location, 1, 1, 1).stream().filter(entity -> entity instanceof LivingEntity).forEach(entity -> {
+			damage(player, (LivingEntity) entity, damage);
+			ignite((LivingEntity) entity, fireTicks);
+		});
+		stop();
+	}
 
 }
