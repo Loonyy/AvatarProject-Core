@@ -7,18 +7,22 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>AvatarProject</name>
-  
+
   <repositories>
     <repository>
       <id>spigot-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
+    <repository>
+      <id>sk89q-repo</id>
+      <url>http://maven.sk89q.com/repo/</url>
+    </repository>
   </repositories>
-  
+
   <dependencies>
     <!-- Spigot API -->
     <dependency>
-   	  <groupId>org.spigotmc</groupId>
+      <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
       <version>1.10.2-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
@@ -30,7 +34,7 @@
       <version>1.10.2-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
-    <!--  AbilityAPI -->
+    <!-- AbilityAPI -->
     <dependency>
       <groupId>com.github</groupId>
       <artifactId>abilityapi</artifactId>
@@ -38,8 +42,15 @@
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/AbilityAPI.jar</systemPath>
     </dependency>
+    <!-- WorldGuard API -->
+    <dependency>
+      <groupId>com.sk89q</groupId>
+      <artifactId>worldguard</artifactId>
+      <version>LATEST</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
-  
+
   <build>
     <defaultGoal>clean package install</defaultGoal>
     <finalName>${project.name}-${project.version}</finalName>
@@ -66,7 +77,7 @@
       </plugin>
     </plugins>
   </build>
-  
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
