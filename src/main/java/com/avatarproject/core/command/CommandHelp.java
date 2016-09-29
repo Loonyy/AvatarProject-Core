@@ -34,9 +34,9 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class HelpCommand extends APCommand {
+public class CommandHelp extends APCommand {
 	
-	public HelpCommand() {
+	public CommandHelp() {
 		super("help", "/avatar help [page|command]", "Shows all the available commands, and indepth help on each command.", new String[] { "help", "h" },
 				new String[][] {new String[] {"%custom"}});
 	}

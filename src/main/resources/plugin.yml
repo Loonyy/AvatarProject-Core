@@ -3,6 +3,7 @@ main: com.avatarproject.core.AvatarProjectCore
 version: ${project.version}
 authors: [avatarproject]
 depend: [AbilityAPI]
+softdepend: [WorldGuard]
 
 commands:
   avatar:
@@ -14,3 +15,19 @@ permissions:
   avatar.admin:
     default: OP
     description: Admin access to all of AvatarProject-Core
+    children:
+      avatar.player: true
+      avatar.command.choose.rechoose: true
+  avatar.player:
+    default: true
+    description: Player access to basic parts of AvatarProject-Core
+    children:
+      avatar.command.bind: true
+      avatar.command.choose: true
+      avatar.command.clear: true
+      avatar.command.help: true
+  avatar.fire:
+    default: true
+    description: Access to all the fire abilities in AvatarProject-Core
+    children:
+      avatar.ability.fire.fireblast: true

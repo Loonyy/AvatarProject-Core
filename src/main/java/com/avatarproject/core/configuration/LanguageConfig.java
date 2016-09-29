@@ -29,7 +29,7 @@ public class LanguageConfig extends Config {
 		super(AvatarProjectCore.getInstance(), new File("en_US.yml"));
 		
 		//General
-		get().addDefault("General.Prefix", "&8[&3AvatarProject&8]&r ");
+		get().addDefault("General.PluginPrefix", "&8[&3AvatarProject&8]&r ");
 		get().addDefault("General.NoPermission", "&cSorry but you do not have the permission required to do that!");
 		
 		//Commands
@@ -40,13 +40,23 @@ public class LanguageConfig extends Config {
 		
 		get().addDefault("Command.Help.Title", "&aCommands: <required> [optional]");
 		
+		get().addDefault("Command.Bind.Bound", "&7You have bound &f%ability%&7 to slot &f%slot%&7!");
+		
 		get().addDefault("Command.Choose.Self", "&7You have set your element as &f%element%&7!");
 		get().addDefault("Command.Choose.Other.Sender", "&7You have set &f%player%&7's element to &f%element%&7!");
 		get().addDefault("Command.Choose.Other.Player", "&f%sender%&7 has set your element to &f%element%&7!");
 		
+		get().addDefault("Command.Clear.All", "&7You have cleared all your slots!");
+		get().addDefault("Command.Clear.Single", "&7Slot &f%slot%&7 has been cleared!");
+		
 		get().addDefault("Command.Error.Error", "&7Uh oh, something went wrong when trying to execute that command!");
+		get().addDefault("Command.Error.SlotOutOfBounds", "&7Slot must be within 1 - 9!");
+		get().addDefault("Command.Error.Invalid.Ability", "&7That isn't a valid Ability!");
 		get().addDefault("Command.Error.Invalid.Player", "&cCouldn't find a Player with that name!");
 		get().addDefault("Command.Error.Invalid.Element", "&7That isn't a valid Element!");
+		
+		//Player
+		get().addDefault("Player.Error.CantBind", "&7Sorry but you can't bind that Ability!");
 		
 		save();
 		instance = this;

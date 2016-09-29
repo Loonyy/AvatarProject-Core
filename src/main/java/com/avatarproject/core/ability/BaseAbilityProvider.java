@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.avatarproject.core.AvatarProjectCore;
@@ -146,6 +147,16 @@ public abstract class BaseAbilityProvider implements IBaseAbilityProvider, Abili
 	public void setHidden(boolean hidden) {
 		this.hidden = hidden;
 	}
+	
+	/**
+	 * Gets a formatted ability name
+	 * Includes color prefix
+	 * @return String fancy name of the ability
+	 */
+	public String getFancyName() {
+		//TODO add avatar color
+		return (getElement() != null ? getElement().getColor() : ChatColor.WHITE) + getName();
+	}
 
 	/**
 	 * Checks if the provided ability id is valid
@@ -154,6 +165,18 @@ public abstract class BaseAbilityProvider implements IBaseAbilityProvider, Abili
 	 */
 	public static boolean isValidAbility(String id) {
 		return getAbilities().containsKey(id);
+	}
+	
+	/**
+	 * Gets an ability instance from a provided id
+	 * @param id String id of the ability
+	 * @return BaseAbilityProvider instance of the ability
+	 */
+	public static BaseAbilityProvider fromString(String id) {
+		if (isValidAbility(id)) {
+			return getAbilities().get(id);
+		}
+		return null;
 	}
 
 	/**

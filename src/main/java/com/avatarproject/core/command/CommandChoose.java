@@ -29,9 +29,9 @@ import com.avatarproject.core.element.Element;
 import com.avatarproject.core.lang.Strings;
 import com.avatarproject.core.player.APCPlayer;
 
-public class ChooseCommand extends APCommand {
+public class CommandChoose extends APCommand {
 
-	public ChooseCommand() {
+	public CommandChoose() {
 		super("choose", "/avatar choose <element> [player]", "Allows you to choose your element.", new String[] { "choose", "ch" },
 				new String[][] {new String[] {"%custom"}, new String[] {"%player"}});
 	}
@@ -56,6 +56,9 @@ public class ChooseCommand extends APCommand {
 				return;
 			}
 			APCPlayer apcp = APCPlayer.get(op);
+			if (!apcp.hasElement(element)) {
+				apcp.clearAbilities();
+			}
 			apcp.setElement(element);
 			apcp.serialize();
 			sender.sendMessage(Strings.COMMAND_CHOOSE_OTHER_SENDER.toString(true, op.getName(), element.getFancyName()));
@@ -71,6 +74,9 @@ public class ChooseCommand extends APCommand {
 			APCPlayer apcp = APCPlayer.get(player);
 			if (!apcp.getElements().isEmpty() && !hasPermission(sender, "rechoose")) {
 				return;
+			}
+			if (!apcp.hasElement(element)) {
+				apcp.clearAbilities();
 			}
 			apcp.setElement(element);
 			apcp.serialize();

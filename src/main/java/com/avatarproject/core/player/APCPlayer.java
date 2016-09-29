@@ -310,6 +310,35 @@ public class APCPlayer extends Serializer {
 	public String getAbility(int slot) {
 		return getAbilities().get(slot);
 	}
+	
+	/**
+	 * Clears all the APCPlayer's bound abilities
+	 */
+	public void clearAbilities() {
+		try {
+			for (int i = 0; i < 9; i++) {
+				setAbility(i, null);
+			}
+		} catch (SlotOutOfBoundsException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Checks if the APCPlayer can bind a specified ability
+	 * @param ability BaseAbilityProvider to check if the player can bind
+	 * @return Boolean true if the player can bind that ability
+	 */
+	public boolean canBind(BaseAbilityProvider ability) {
+		if (!getElements().contains(ability.getElement())) {
+			return false;
+		}
+		Player player = getBukkitPlayer();
+		if (player == null || !player.hasPermission("avatar.ability." + ability.getElement().getId() + "." + ability.getId())) {
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * Returns the player from the UUID
