@@ -19,6 +19,7 @@ package com.avatarproject.core.ability;
 
 import java.util.Arrays;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
@@ -94,5 +95,16 @@ public abstract class BaseAbility extends Ability implements IBaseAbility {
 	 */
 	public boolean isBlockPassable(Block block) {
 		return Arrays.asList(transparent).contains(block.getType());
+	}
+	
+	/**
+	 * Checks if the player can build at the specified location
+	 * @param location Location to check
+	 * @return Boolean true if the player can build at the location
+	 */
+	public boolean canBuildAt(Location location) {
+		//TODO add other plugin checks here
+		//TODO Factions, WorldGuard, Towny, GriefPrevention, PlotSquared maybe?
+		return true;
 	}
 }
