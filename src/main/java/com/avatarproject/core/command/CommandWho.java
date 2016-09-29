@@ -27,6 +27,9 @@ public class CommandWho extends APCommand {
 		}
 		APCPlayer apcp = null;
 		if (args.size() == 0) {
+			if (!isPlayer(sender)) {
+				return;
+			}
 			apcp = APCPlayer.get((Player) sender);
 		}
 		if (args.size() == 1) {

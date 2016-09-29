@@ -166,7 +166,7 @@ public abstract class APCommand implements IAPCommand {
 		if (sender instanceof Player) {
 			return true;
 		} else {
-			sender.sendMessage(ChatColor.RED + "You must be a player to use that command.");
+			sender.sendMessage(Strings.PLUGIN_PREFIX.toString() + ChatColor.RED + "You must be a player to use that command.");
 			return false;
 		}
 	}
