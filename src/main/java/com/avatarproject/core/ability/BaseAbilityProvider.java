@@ -171,7 +171,9 @@ public abstract class BaseAbilityProvider implements IBaseAbilityProvider, Abili
 	 */
 	public static List<BaseAbilityProvider> getAbilities(Element...elements) {
 		List<BaseAbilityProvider> abilities = new ArrayList<>();
-		getAbilities().values().stream().filter(ability -> Arrays.asList(elements).contains(ability.getElement())).forEach(abilities::add);
+		getAbilities().values().stream()
+		.filter(ability -> Arrays.asList(elements).contains(ability.getElement()) && !ability.isHidden())
+		.forEach(abilities::add);
 		return abilities;
 	}
 
