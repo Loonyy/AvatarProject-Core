@@ -18,7 +18,10 @@
 package com.avatarproject.core.ability;
 
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -30,7 +33,7 @@ import com.github.abilityapi.AbilityAPI;
 import com.github.abilityapi.AbilityProvider;
 import com.google.common.reflect.ClassPath;
 
-public abstract class BaseAbilityProvider implements IAbility, AbilityProvider<Ability> {
+public abstract class BaseAbilityProvider implements IBaseAbilityProvider, AbilityProvider<Ability> {
 
 	private static final HashMap<String, BaseAbilityProvider> ABILITIES = new HashMap<>();
 
@@ -39,6 +42,7 @@ public abstract class BaseAbilityProvider implements IAbility, AbilityProvider<A
 	private String description;
 	private Element element;
 	private boolean passive;
+	private boolean hidden;
 
 	/**
 	 * Base constructor for all abilities
@@ -47,9 +51,10 @@ public abstract class BaseAbilityProvider implements IAbility, AbilityProvider<A
 	 * @param description Description of the ability that will be displayed in messages, etc
 	 * @param element Element of the ability, leave null for Avatar
 	 * @param passive Boolean if the ability does damage or not
+	 * @param hidden Boolean if the ability should be hidden
 	 * @throws AbilityRegisteredException Thrown if the ability is already registered
 	 */
-	public BaseAbilityProvider(String id, String name, String description, Element element, boolean passive) throws AbilityRegisteredException {
+	public BaseAbilityProvider(String id, String name, String description, Element element, boolean passive, boolean hidden) throws AbilityRegisteredException {
 		if (ABILITIES.containsKey(id)) {
 			throw new AbilityRegisteredException("Ability with id " + id + " is already registered!");
 		}
@@ -58,7 +63,8 @@ public abstract class BaseAbilityProvider implements IAbility, AbilityProvider<A
 		setDescription(description);
 		setElement(element);
 		setPassive(passive);
-		System.out.println("Registering new ability id: " + id + " name: " + name);
+		setHidden(hidden);
+		AvatarProjectCore.getInstance().getLogger().info("[Debug] Registering new ability id: " + id + " name: " + name);
 		ABILITIES.put(id, this);
 	}
 
@@ -127,6 +133,19 @@ public abstract class BaseAbilityProvider implements IAbility, AbilityProvider<A
 	public void setPassive(boolean passive) {
 		this.passive = passive;
 	}
+	
+	@Override
+	public boolean isHidden() {
+		return hidden;
+	}
+	
+	/**
+	 * Sets if the ability is hidden or not
+	 * @param hidden Boolean ability hidden
+	 */
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
+	}
 
 	/**
 	 * Checks if the provided ability id is valid
@@ -143,6 +162,17 @@ public abstract class BaseAbilityProvider implements IAbility, AbilityProvider<A
 	 */
 	public static HashMap<String, BaseAbilityProvider> getAbilities() {
 		return ABILITIES;
+	}
+	
+	/**
+	 * Gets all the abilities for a give Element(s)
+	 * @param elements Elements you wish to retrieve the abilities of
+	 * @return List array of all the abilities for a given Element(s)
+	 */
+	public static List<BaseAbilityProvider> getAbilities(Element...elements) {
+		List<BaseAbilityProvider> abilities = new ArrayList<>();
+		getAbilities().values().stream().filter(ability -> Arrays.asList(elements).contains(ability.getElement())).forEach(abilities::add);
+		return abilities;
 	}
 
 	/**

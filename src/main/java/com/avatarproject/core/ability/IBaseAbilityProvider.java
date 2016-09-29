@@ -19,7 +19,7 @@ package com.avatarproject.core.ability;
 
 import com.avatarproject.core.element.Element;
 
-public interface IAbility {
+public interface IBaseAbilityProvider {
 
 	/**
 	 * Gets the ability ID, not to be confused with ability name
@@ -50,4 +50,10 @@ public interface IAbility {
 	 * @return Boolean ability damage
 	 */
 	public boolean isPassive();
+	
+	/**
+	 * Gets if the ability is hidden, i.e. combos, etc
+	 * @return Boolean ability is hidden
+	 */
+	public boolean isHidden();
 }

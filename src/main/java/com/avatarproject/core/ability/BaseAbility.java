@@ -17,6 +17,10 @@
  *******************************************************************************/
 package com.avatarproject.core.ability;
 
+import java.util.Arrays;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -24,6 +28,40 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import com.github.abilityapi.Ability;
 
 public abstract class BaseAbility extends Ability implements IBaseAbility {
+	
+	private static Material[] transparent = {
+			Material.AIR,
+			Material.SAPLING,
+			Material.LONG_GRASS,
+			Material.YELLOW_FLOWER,
+			Material.RED_ROSE,
+			Material.BROWN_MUSHROOM,
+			Material.RED_MUSHROOM,
+			Material.TORCH,
+			Material.LADDER,
+			Material.SNOW,
+			Material.VINE,
+			Material.WATER_LILY,
+			Material.CARPET,
+			Material.DOUBLE_PLANT,
+			Material.SIGN_POST,
+			Material.WALL_SIGN,
+			Material.STANDING_BANNER,
+			Material.WALL_BANNER,
+			Material.LEVER,
+			Material.STONE_PLATE,
+			Material.WOOD_PLATE,
+			Material.IRON_PLATE,
+			Material.GOLD_PLATE,
+			Material.REDSTONE_TORCH_OFF,
+			Material.REDSTONE_TORCH_ON,
+			Material.STONE_BUTTON,
+			Material.WOOD_BUTTON,
+			Material.RAILS,
+			Material.ACTIVATOR_RAIL,
+			Material.DETECTOR_RAIL,
+			Material.POWERED_RAIL
+	};
 
 	/**
 	 * Apply damage to an entity
@@ -44,5 +82,17 @@ public abstract class BaseAbility extends Ability implements IBaseAbility {
     		victim.damage(damage, attacker);
     		victim.setLastDamageCause(event);
     	}
+	}
+	
+	/**
+	 * Checks if a block can be moved through
+	 * Excludes:
+	 * <li>Water</li>
+	 * <li>Lava</li>
+	 * @param block Block to be checked
+	 * @return Boolean true if the block can be passed through
+	 */
+	public boolean isBlockPassable(Block block) {
+		return Arrays.asList(transparent).contains(block.getType());
 	}
 }

@@ -27,26 +27,25 @@ import com.github.abilityapi.trigger.Actions;
 import com.github.abilityapi.trigger.Trigger;
 import com.github.abilityapi.trigger.sequence.Sequence;
 
-public class FireBlastProvider extends FireAbilityProvider {
+public class FireBlastChargedProvider extends FireAbilityProvider {
 
-	public FireBlastProvider() throws AbilityRegisteredException {
-		super("fireblast", "FireBlast", "Throws a fire. Duh", false, false);
+	public FireBlastChargedProvider() throws AbilityRegisteredException {
+		super("fireblast_charged", null, null, false, true);
 	}
 
 	@Override
 	public Ability createInstance(Player player) {
-		return new FireBlast(player, false);
+		return new FireBlast(player, true);
 	}
 
 	@Override
 	public Trigger getTrigger() {
 		return () -> Sequence.builder()
-				.action(Actions.LEFT_CLICK)
+				.action(Actions.SHIFT_DOWN)
 				.condition((player, event) -> {
 					String ability = APCPlayer.get(player).getAbility(player.getInventory().getHeldItemSlot());
-					return ability != null && ability.equals(getId());
+					return ability != null && ability.equals("fireblast");
 				})
 				.build();
 	}
-
 }

@@ -29,12 +29,18 @@ public class FireBlast extends FireAbility {
 	private Location location;
 	private double damage;
 	private int fireTicks;
+	private int ticks;
+	private boolean charged;
+	
+	private long expire;
 
-	public FireBlast(Player player) {
+	public FireBlast(Player player, boolean charged) {
 		this.player = player;
 		this.location = player.getEyeLocation().clone();
 		this.damage = 1;
 		this.fireTicks = 20;
+		this.charged = charged;
+		this.expire = 20;
 	}
 
 	@Override
@@ -49,7 +55,7 @@ public class FireBlast extends FireAbility {
 
 	@Override
 	public long getExpireTicks() {
-		return 20;
+		return expire;
 	}
 
 	@Override
@@ -64,14 +70,53 @@ public class FireBlast extends FireAbility {
 
 	@Override
 	public void update() {
-		location.add(location.getDirection().multiply(1));
-		playSound(location);
-		playParticleEffect(location);
-		location.getWorld().getNearbyEntities(location, 1, 1, 1).stream().filter(entity -> entity instanceof LivingEntity).forEach(entity -> {
-			damage(player, (LivingEntity) entity, damage);
-			ignite((LivingEntity) entity, fireTicks);
-		});
-		stop();
+		if (!isBlockPassable(location.getBlock())) {
+			if (charged) {
+				//TODO create fake explosion
+			}
+			//TODO cancel ability here
+			return;
+		}
+		if (charged) {
+			ticks++;
+			if (!player.isSneaking() && ticks < 40) {
+				//TODO cancel ability here
+				return;
+			}
+			if (player.isSneaking()) {
+				location = player.getEyeLocation().clone();
+				expire++;
+				if (ticks >= 40) {
+					playParticleEffect(location.clone().add(location.getDirection().multiply(3)));
+				}
+				return;
+			}
+			location.add(location.getDirection().multiply(1));
+			playSound(location);
+			for (int x = -1; x < 2; x++) {
+				for (int y = -1; y < 2; y++) {
+					for (int z = -1; z < 2; z++) {
+						Location loc = location.clone().add(x, y, z);
+						playParticleEffect(loc);
+						loc.getWorld().getNearbyEntities(loc, 1, 1, 1).stream().filter(entity -> entity instanceof LivingEntity).forEach(entity -> {
+							damage(player, (LivingEntity) entity, damage);
+							ignite(player, (LivingEntity) entity, fireTicks);
+							//TODO cancel ability here
+							//TODO create fake explosion
+						});
+					}
+				}
+			}
+		} else {
+			location.add(location.getDirection().multiply(1));
+			playSound(location);
+			playParticleEffect(location);
+			location.getWorld().getNearbyEntities(location, 1, 1, 1).stream().filter(entity -> entity instanceof LivingEntity).forEach(entity -> {
+				damage(player, (LivingEntity) entity, damage);
+				ignite(player, (LivingEntity) entity, fireTicks);
+				//TODO cancel ability here
+			});
+		}
 	}
 
 }

@@ -60,10 +60,14 @@ public abstract class FireAbility extends BaseAbility {
 	
 	/**
 	 * Ignites a LivingEntity on fire
+	 * @param attacker LivingEntity ability holder
 	 * @param victim LivingEntity to be set on fire
 	 * @param ticks Integer ticks duration for entity to be alight
 	 */
-	public void ignite(LivingEntity victim, int ticks) {
+	public void ignite(LivingEntity attacker, LivingEntity victim, int ticks) {
+		if (attacker.getEntityId() == victim.getEntityId()) {
+			return;
+		}
 		victim.setFireTicks(ticks);
 	}
 }

@@ -30,8 +30,8 @@ public abstract class FireAbilityProvider extends BaseAbilityProvider {
 	 * @param passive Boolean if the ability does damage or not
 	 * @throws AbilityRegisteredException Thrown if the ability is already registered
 	 */
-	public FireAbilityProvider(String id, String name, String description, boolean passive) throws AbilityRegisteredException {
-		super(id, name, description, Element.FIRE, passive);
+	public FireAbilityProvider(String id, String name, String description, boolean passive, boolean hidden) throws AbilityRegisteredException {
+		super(id, name, description, Element.FIRE, passive, hidden);
 	}
 
 }
