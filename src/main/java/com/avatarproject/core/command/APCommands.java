@@ -41,9 +41,12 @@ public class APCommands {
 
 		new CommandHelp();
 		
+		new CommandAdd();
 		new CommandBind();
 		new CommandChoose();
 		new CommandClear();
+		new CommandVersion();
+		new CommandWho();
 
 		exe = new CommandExecutor() {
 			@Override

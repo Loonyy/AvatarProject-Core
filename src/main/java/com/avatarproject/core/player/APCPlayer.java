@@ -251,6 +251,9 @@ public class APCPlayer extends Serializer {
 	 */
 	public void addElement(Element...elements) {
 		for (Element e : elements) {
+			if (hasElement(e)) {
+				continue;
+			}
 			getElement().add(e.toString());
 		}
 	}

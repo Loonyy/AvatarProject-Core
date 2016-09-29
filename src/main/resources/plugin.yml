@@ -17,6 +17,8 @@ permissions:
     description: Admin access to all of AvatarProject-Core
     children:
       avatar.player: true
+      avatar.command.add: true
+      avatar.command.add.other: true
       avatar.command.choose.rechoose: true
   avatar.player:
     default: true
@@ -26,6 +28,8 @@ permissions:
       avatar.command.choose: true
       avatar.command.clear: true
       avatar.command.help: true
+      avatar.command.version: true
+      avatar.command.who: true
   avatar.fire:
     default: true
     description: Access to all the fire abilities in AvatarProject-Core

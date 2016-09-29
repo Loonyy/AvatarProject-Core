@@ -30,10 +30,10 @@ import com.avatarproject.core.element.ElementNoun;
 import com.avatarproject.core.lang.Strings;
 import com.avatarproject.core.player.APCPlayer;
 
-public class CommandChoose extends APCommand {
+public class CommandAdd extends APCommand {
 
-	public CommandChoose() {
-		super("choose", "/avatar choose <element> [player]", "Allows you to choose your element.", new String[] { "choose", "ch" },
+	public CommandAdd() {
+		super("add", "/avatar add <element> [player]", "Allows you to add an element to yourself or another player.", new String[] { "add" },
 				new String[][] {new String[] {"%custom"}, new String[] {"%player"}});
 	}
 
@@ -43,7 +43,7 @@ public class CommandChoose extends APCommand {
 			return;
 		}
 		Element element = Element.fromString(args.get(0));
-		if (element == null || element.isSub()) {
+		if (element == null) {
 			sender.sendMessage(Strings.COMMAND_ERROR_INVALID_ELEMENT.toString(true));
 			return;
 		}
@@ -57,15 +57,17 @@ public class CommandChoose extends APCommand {
 				return;
 			}
 			APCPlayer apcp = APCPlayer.get(op);
-			if (!apcp.hasElement(element)) {
-				apcp.clearAbilities();
+			if ((apcp.getElements().isEmpty() && element.isSub()) || (element.isSub() && !apcp.hasElement(element.getParent()))) {
+				sender.sendMessage(Strings.COMMAND_ADD_OTHER_SUB.toString(true, apcp.getName(), 
+						element.getParent().getFancyName(), element.getParent().getContext(ElementNoun.BEND), element.getFancyName(), element.getContext(ElementNoun.BENDING)));
+				return;
 			}
-			apcp.setElement(element);
+			apcp.addElement(element);
 			apcp.serialize();
-			sender.sendMessage(Strings.COMMAND_CHOOSE_OTHER_SENDER.toString(true, op.getName(), element.getFancyName(), element.getContext(ElementNoun.BENDER)));
+			sender.sendMessage(Strings.COMMAND_ADD_OTHER_SENDER.toString(true, op.getName(), element.getFancyName(), element.getContext(ElementNoun.BENDING)));
 			if (op.isOnline()) {
 				Player p = Bukkit.getPlayer(op.getName());
-				p.sendMessage(Strings.COMMAND_CHOOSE_OTHER_PLAYER.toString(true, sender.getName(), element.getFancyName(), element.getContext(ElementNoun.BENDER)));
+				p.sendMessage(Strings.COMMAND_ADD_OTHER_PLAYER.toString(true, sender.getName(), element.getFancyName(), element.getContext(ElementNoun.BENDING)));
 			}
 		} else {
 			if (!isPlayer(sender)) {
@@ -73,15 +75,14 @@ public class CommandChoose extends APCommand {
 			}
 			Player player = (Player) sender;
 			APCPlayer apcp = APCPlayer.get(player);
-			if (!apcp.getElements().isEmpty() && !hasPermission(sender, "rechoose")) {
+			if ((apcp.getElements().isEmpty() && element.isSub()) || (element.isSub() && !apcp.hasElement(element.getParent()))) {
+				sender.sendMessage(Strings.COMMAND_ADD_SELF_SUB.toString(true, element.getParent().getFancyName(), 
+						element.getParent().getContext(ElementNoun.BEND), element.getFancyName(), element.getContext(ElementNoun.BENDING)));
 				return;
 			}
-			if (!apcp.hasElement(element)) {
-				apcp.clearAbilities();
-			}
-			apcp.setElement(element);
+			apcp.addElement(element);
 			apcp.serialize();
-			sender.sendMessage(Strings.COMMAND_CHOOSE_SELF.toString(true, element.getFancyName(), element.getContext(ElementNoun.BENDER)));
+			sender.sendMessage(Strings.COMMAND_ADD_SELF.toString(true, element.getFancyName(), element.getContext(ElementNoun.BEND)));
 		}
 	}
 	
@@ -89,7 +90,7 @@ public class CommandChoose extends APCommand {
 	public String[] tabComplete(CommandSender sender, String[] args) {
 		if (args.length == 2) {
 			List<String> elements = new ArrayList<>();
-			Element.getElements().values().stream().filter(element -> !element.isSub()).forEach(element -> elements.add(element.getId()));
+			Element.getElements().values().stream().forEach(element -> elements.add(element.getId()));
 			return elements.toArray(new String[elements.size()]);
 		}
 		return null;

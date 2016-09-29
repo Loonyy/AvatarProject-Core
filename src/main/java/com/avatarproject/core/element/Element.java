@@ -18,14 +18,16 @@
 package com.avatarproject.core.element;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.bukkit.ChatColor;
 
 import com.avatarproject.core.exception.ElementRegisteredException;
+import com.avatarproject.core.lang.Strings;
 
 public class Element {
 
-	private static final HashMap<String, Element> ELEMENTS = new HashMap<>();
+	private static final LinkedHashMap<String, Element> ELEMENTS = new LinkedHashMap<>();
 
 	/** <b>Element:</b> Air **/
 	public static Element AIR;
@@ -118,7 +120,7 @@ public class Element {
 
 	/**
 	 * Sets the name of the element
-	 * This is what will be displayed in messages, e tc
+	 * This is what will be displayed in messages, etc
 	 * @param name String name of the element
 	 */
 	private void setName(String name) {
@@ -177,6 +179,22 @@ public class Element {
 	}
 	
 	/**
+	 * Gets the "bend" noun from the language configuration for this element
+	 * @return String noun for "bend", "bender" or "bending"
+	 */
+	public String getContext(ElementNoun noun) {
+		switch (noun) {
+		case BEND:
+			return getId().equals("chi") ? Strings.ELEMENT_NOUN_BLOCK.toString() : Strings.ELEMENT_NOUN_BEND.toString();
+		case BENDER:
+			return getId().equals("chi") ? Strings.ELEMENT_NOUN_BLOCKER.toString() : Strings.ELEMENT_NOUN_BENDER.toString();
+		case BENDING:
+			return getId().equals("chi") ? Strings.ELEMENT_NOUN_BLOCKING.toString() : Strings.ELEMENT_NOUN_BENDING.toString();
+		}
+		return null;
+	}
+	
+	/**
 	 * Gets an Element object based on the provided id
 	 * @param id ID of the element
 	 * @return Element if exists
@@ -206,26 +224,26 @@ public class Element {
 		//TODO Add configuration value to disable entire element
 		try {
 			//Air elements
-			AIR = new Element("air", "Air", null, ChatColor.GRAY);
-			FLIGHT = new Element("flight", "Flight", AIR, ChatColor.DARK_GRAY);
+			AIR = new Element("air", Strings.ELEMENT_AIR.toString(), null, ChatColor.GRAY);
+			FLIGHT = new Element("flight", Strings.ELEMENT_FLIGHT.toString(), AIR, ChatColor.DARK_GRAY);
 
 			//Earth elements
-			EARTH = new Element("earth", "Earth", null, ChatColor.GREEN);
-			LAVA = new Element("lava", "Lava", EARTH, ChatColor.DARK_GREEN);
-			METAL = new Element("metal", "Metal", EARTH, ChatColor.DARK_GREEN);
+			EARTH = new Element("earth", Strings.ELEMENT_EARTH.toString(), null, ChatColor.GREEN);
+			LAVA = new Element("lava", Strings.ELEMENT_LAVA.toString(), EARTH, ChatColor.DARK_GREEN);
+			METAL = new Element("metal", Strings.ELEMENT_METAL.toString(), EARTH, ChatColor.DARK_GREEN);
 
 			//Fire elements
-			FIRE = new Element("fire", "Fire", null, ChatColor.RED);
-			COMBUSTION = new Element("combustion", "Combustion", FIRE, ChatColor.DARK_RED);
-			LIGHTNING = new Element("lightning", "Lightning", FIRE, ChatColor.DARK_RED);
+			FIRE = new Element("fire", Strings.ELEMENT_FIRE.toString(), null, ChatColor.RED);
+			COMBUSTION = new Element("combustion", Strings.ELEMENT_COMBUSTION.toString(), FIRE, ChatColor.DARK_RED);
+			LIGHTNING = new Element("lightning", Strings.ELEMENT_LIGHTNING.toString(), FIRE, ChatColor.DARK_RED);
 
 			//Water elements
-			WATER = new Element("water", "Water", null, ChatColor.AQUA);
-			BLOOD = new Element("blood", "Bloodbend", WATER, ChatColor.DARK_AQUA);
-			PLANT = new Element("plant", "Plant", WATER, ChatColor.DARK_AQUA);
+			WATER = new Element("water", Strings.ELEMENT_WATER.toString(), null, ChatColor.AQUA);
+			BLOOD = new Element("blood", Strings.ELEMENT_BLOOD.toString(), WATER, ChatColor.DARK_AQUA);
+			PLANT = new Element("plant", Strings.ELEMENT_PLANT.toString(), WATER, ChatColor.DARK_AQUA);
 
 			//Chi blocking
-			CHI = new Element("chi", "Chi", null, ChatColor.GOLD);
+			CHI = new Element("chi", Strings.ELEMENT_CHI.toString(), null, ChatColor.GOLD);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

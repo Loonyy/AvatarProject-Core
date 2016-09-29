@@ -49,6 +49,7 @@ public class AvatarProjectCore extends JavaPlugin {
 		
 		new UserCache();
 		Serializer.setLogger(this.getLogger());
+		Config.loadConfigurations();
 		
 		new APCommands();
 		
@@ -59,7 +60,6 @@ public class AvatarProjectCore extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new FallingBlockListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 		
-		Config.loadConfigurations();
 		BaseAbilityProvider.registerAbilities();
 		
 		for (Player player : Bukkit.getOnlinePlayers()) {
