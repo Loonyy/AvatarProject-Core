@@ -19,6 +19,7 @@ package com.avatarproject.core.player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +33,7 @@ import com.avatarproject.core.ability.BaseAbilityProvider;
 import com.avatarproject.core.element.Element;
 import com.avatarproject.core.exception.SlotOutOfBoundsException;
 import com.avatarproject.core.exception.TooManyBindsException;
+import com.avatarproject.core.service.CooldownEntry;
 import com.avatarproject.core.storage.Serializer;
 import com.avatarproject.core.storage.StorageUtil;
 import com.google.gson.annotations.Expose;
@@ -353,7 +355,7 @@ public class APCPlayer extends Serializer {
 		if (player != null && !getAbility(player.getInventory().getHeldItemSlot()).equals(ability.getId())) {
 			return false;
 		}
-		if (getCooldown(ability.getId()) > 0) {
+		if (getCooldown(ability.getId()).getRemainder() > 0) {
 			return false;
 		}
 		return true;
@@ -365,11 +367,11 @@ public class APCPlayer extends Serializer {
 	 * @param cooldown Long cool-down duration to be added (in m/s)
 	 */
 	public void addCooldown(String ability, long cooldown) {
-		HashMap<String, Long> cooldowns = new HashMap<>();
+		List<CooldownEntry> cooldowns = new ArrayList<>();
 		if (AvatarProjectCore.get().getCooldownService().getCooldowns().containsKey(getUniqueId())) {
 			cooldowns = AvatarProjectCore.get().getCooldownService().getCooldowns().get(getUniqueId());
 		}
-		cooldowns.put(ability, System.currentTimeMillis() + cooldown);
+		cooldowns.add(new CooldownEntry(ability, System.currentTimeMillis(), cooldown));
 		AvatarProjectCore.get().getCooldownService().getCooldowns().put(getUniqueId(), cooldowns);
 	}
 	
@@ -379,25 +381,32 @@ public class APCPlayer extends Serializer {
 	 */
 	public void removeCooldown(String ability) {
 		if (AvatarProjectCore.get().getCooldownService().getCooldowns().containsKey(getUniqueId())) {
-			HashMap<String, Long> cooldowns = AvatarProjectCore.get().getCooldownService().getCooldowns().get(getUniqueId());
-			cooldowns.remove(ability);
-			AvatarProjectCore.get().getCooldownService().getCooldowns().put(getUniqueId(), cooldowns);
+			Iterator<CooldownEntry> it = AvatarProjectCore.get().getCooldownService().getCooldowns().get(getUniqueId()).iterator();
+			while (it.hasNext()) {
+				CooldownEntry entry = it.next();
+				if (entry.getAbility().equals(ability)) {
+					it.remove();
+				}
+			}
 		}
 	}
 	
 	/**
 	 * Gets the cool-down of a specific ability
 	 * @param ability String id of the ability
-	 * @return Long time of when the cool-down should end
+	 * @return CooldownEntry information about the cool-down
 	 */
-	public long getCooldown(String ability) {
+	public CooldownEntry getCooldown(String ability) {
 		if (AvatarProjectCore.get().getCooldownService().getCooldowns().containsKey(getUniqueId())) {
-			HashMap<String, Long> cooldowns = AvatarProjectCore.get().getCooldownService().getCooldowns().get(getUniqueId());
-			if (cooldowns.containsKey(ability)) {
-				return cooldowns.get(ability);
+			Iterator<CooldownEntry> it = AvatarProjectCore.get().getCooldownService().getCooldowns().get(getUniqueId()).iterator();
+			while (it.hasNext()) {
+				CooldownEntry entry = it.next();
+				if (entry.getAbility().equals(ability)) {
+					return entry;
+				}
 			}
 		}
-		return 0;
+		return new CooldownEntry(ability, 0l, 0l);
 	}
 
 	/**
