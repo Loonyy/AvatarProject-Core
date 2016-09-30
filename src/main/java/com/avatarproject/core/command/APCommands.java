@@ -45,6 +45,7 @@ public class APCommands {
 		new CommandBind();
 		new CommandChoose();
 		new CommandClear();
+		new CommandToggle();
 		new CommandVersion();
 		new CommandWho();
 

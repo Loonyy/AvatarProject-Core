@@ -77,6 +77,11 @@ public enum Strings {
 	COMMAND_CLEAR_ALL ("Command.Clear.All"),
 	COMMAND_CLEAR_SINGLE ("Command.Clear.Single", new String[] {"%slot%"}),
 	
+	COMMAND_TOGGLE_ON_SELF ("Command.Toggle.Enable.Self"),
+	COMMAND_TOGGLE_OFF_SELF ("Command.Toggle.Disable.Self"),
+	COMMAND_TOGGLE_ON_OTHER ("Command.Toggle.Enable.Other", new String[] {"%player%"}),
+	COMMAND_TOGGLE_OFF_OTHER ("Command.Toggle.Disable.Other", new String[] {"%player%"}),
+	
 	COMMAND_VERSION_VERSION ("Command.Version.Version"),
 	COMMAND_VERSION_URL ("Command.Version.URL"),
 	

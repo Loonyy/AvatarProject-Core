@@ -81,6 +81,11 @@ public class LanguageConfig extends Config {
 		get().addDefault("Command.Clear.All", "&7You have cleared all your slots!");
 		get().addDefault("Command.Clear.Single", "&7Slot &f%slot%&7 has been cleared!");
 		
+		get().addDefault("Command.Toggle.Enable.Self", "&7You have enabled your bending!");
+		get().addDefault("Command.Toggle.Enable.Other", "&7You have toggled &f%player%&7's bending on!");
+		get().addDefault("Command.Toggle.Disable.Self", "&7You have disabled your bending!");
+		get().addDefault("Command.Toggle.Disable.Other", "&7You have toggled &f%player%&7's bending off!");
+		
 		get().addDefault("Command.Version.Version", "&7Version: &f");
 		get().addDefault("Command.Version.URL", "&7GitHub: &f");
 		

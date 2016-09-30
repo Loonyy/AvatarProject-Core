@@ -65,6 +65,9 @@ public class APCPlayer extends Serializer {
 	@SerializedName("lastlogin") 
 	@Expose @Since(1.0)
 	private long lastLogin;
+	@SerializedName("toggle") 
+	@Expose @Since(1.0)
+	private boolean toggled;
 	@SerializedName("element") 
 	@Expose @Since(1.0)
 	private List<String> element;
@@ -187,6 +190,26 @@ public class APCPlayer extends Serializer {
 	 */
 	private void setLastLogin(long lastLogin) {
 		this.lastLogin = lastLogin;
+	}
+	
+	/**
+	 * Gets if an APCPlayer has their bending toggled on or off
+	 * <li>true = off (can't bend)</li>
+	 * <li>false = on (can bend)</li>
+	 * @return Boolean true if bending is toggled off
+	 */
+	public boolean isToggled() {
+		return toggled;
+	}
+	
+	/**
+	 * Sets if an APCPlayer has their bending toggled on or off
+	 * <li>true = off (can't bend)</li>
+	 * <li>false = on (can bend)</li>
+	 * @param toggled Boolean toggle state
+	 */
+	public void setToggled(boolean toggled) {
+		this.toggled = toggled;
 	}
 
 	/**
@@ -347,12 +370,16 @@ public class APCPlayer extends Serializer {
 	
 	/**
 	 * Checks if the APCPlayer can a specified ability
-	 * @param ability
-	 * @return
+	 * Not to be confused with canBind()
+	 * @param ability BaseAbilityProvider the ability to check if the player can bend
+	 * @return Boolean true if the player can bend the provided ability
 	 */
 	public boolean canBend(BaseAbilityProvider ability) {
 		Player player = getBukkitPlayer();
 		if (player != null && !getAbility(player.getInventory().getHeldItemSlot()).equals(ability.getId())) {
+			return false;
+		}
+		if (isToggled()) {
 			return false;
 		}
 		if (getCooldown(ability.getId()).getRemainder() > 0) {

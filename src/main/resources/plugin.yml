@@ -8,7 +8,7 @@ softdepend: [WorldGuard]
 commands:
   avatar:
     usage: /avatar
-    aliases: [bending, bend, b, thelastairbender, legendofkorra, lok, korra]
+    aliases: [avatarproject, ap, bending, bend, b, thelastairbender, legendofkorra, lok, korra]
     description: Initial command for AvatarProject-Core
 
 permissions:
@@ -20,6 +20,7 @@ permissions:
       avatar.command.add: true
       avatar.command.add.other: true
       avatar.command.choose.rechoose: true
+      avatar.command.toggle.other: true
   avatar.player:
     default: true
     description: Player access to basic parts of AvatarProject-Core
@@ -28,6 +29,7 @@ permissions:
       avatar.command.choose: true
       avatar.command.clear: true
       avatar.command.help: true
+      avatar.command.toggle: true
       avatar.command.version: true
       avatar.command.who: true
   avatar.fire:
