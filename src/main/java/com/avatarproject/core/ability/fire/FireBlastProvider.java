@@ -42,10 +42,7 @@ public class FireBlastProvider extends FireAbilityProvider {
 	public Trigger getTrigger() {
 		return () -> Sequence.builder()
 				.action(Actions.LEFT_CLICK)
-				.condition((player, event) -> {
-					String ability = APCPlayer.get(player).getAbility(player.getInventory().getHeldItemSlot());
-					return ability != null && ability.equals(getId());
-				})
+				.condition((player, event) -> APCPlayer.get(player).canBend(this))
 				.build();
 	}
 

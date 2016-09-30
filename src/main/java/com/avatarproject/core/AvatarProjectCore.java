@@ -30,12 +30,15 @@ import com.avatarproject.core.element.Element;
 import com.avatarproject.core.listener.FallingBlockListener;
 import com.avatarproject.core.listener.PlayerListener;
 import com.avatarproject.core.player.APCPlayer;
+import com.avatarproject.core.service.CooldownService;
 import com.avatarproject.core.storage.Serializer;
 import com.avatarproject.core.storage.UserCache;
 
 public class AvatarProjectCore extends JavaPlugin {
 	
 	private static AvatarProjectCore instance;
+	
+	private final CooldownService cooldownService = new CooldownService(this);
 	
 	@Override
 	public void onEnable() {
@@ -45,7 +48,7 @@ public class AvatarProjectCore extends JavaPlugin {
 			return;
 		}
 		
-		setInstance(this);
+		instance = this;
 		
 		new UserCache();
 		Serializer.setLogger(this.getLogger());
@@ -65,6 +68,8 @@ public class AvatarProjectCore extends JavaPlugin {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			new APCPlayer(player);
 		}
+		
+		cooldownService.start();
 	}
 	
 	@Override
@@ -78,16 +83,15 @@ public class AvatarProjectCore extends JavaPlugin {
 		getLogger().info("Thanks for using AvatarProject-Core!");
 	}
 	
-	private boolean isSpigot() {
+	public boolean isSpigot() {
 		return getServer().getVersion().toLowerCase().contains("spigot");
 	}
 	
-	
-	public static AvatarProjectCore getInstance() {
-		return instance;
+	public CooldownService getCooldownService() {
+		return cooldownService;
 	}
 	
-	private static void setInstance(AvatarProjectCore instance) {
-		AvatarProjectCore.instance = instance;
+	public static AvatarProjectCore get() {
+		return instance;
 	}
 }

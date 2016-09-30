@@ -35,7 +35,7 @@ public class APCommands {
 	}
 
 	private void init() {
-		PluginCommand horse = AvatarProjectCore.getInstance().getCommand("avatar");
+		PluginCommand horse = AvatarProjectCore.get().getCommand("avatar");
 
 		CommandExecutor exe;
 
@@ -73,12 +73,12 @@ public class APCommands {
 				} catch (Exception e) {
 					s.sendMessage(Strings.COMMAND_ERROR.toString(true));
 					StringBuilder builder = new StringBuilder();
-					builder.append(AvatarProjectCore.getInstance().getDescription().getName());
+					builder.append(AvatarProjectCore.get().getDescription().getName());
 					builder.append(" Command Error:");
 					builder.append(" Sender: " + s.getName());
 					builder.append(" Command: " + c.getLabel());
 					builder.append(" " + Arrays.asList(args).toString().replaceAll("[\\[\\,\\]]", ""));
-					AvatarProjectCore.getInstance().getLogger().info(builder.toString());
+					AvatarProjectCore.get().getLogger().info(builder.toString());
 					e.printStackTrace();
 				}
 				return true;

@@ -26,7 +26,7 @@ public class LanguageConfig extends Config {
 	private static Config instance;
 	
 	public LanguageConfig() {
-		super(AvatarProjectCore.getInstance(), new File("en_US.yml"));
+		super(AvatarProjectCore.get(), new File("en_US.yml"));
 		
 		//General
 		get().addDefault("General.PluginPrefix", "&8[&3AvatarProject&8]&r ");

@@ -342,6 +342,63 @@ public class APCPlayer extends Serializer {
 		}
 		return true;
 	}
+	
+	/**
+	 * Checks if the APCPlayer can a specified ability
+	 * @param ability
+	 * @return
+	 */
+	public boolean canBend(BaseAbilityProvider ability) {
+		Player player = getBukkitPlayer();
+		if (player != null && !getAbility(player.getInventory().getHeldItemSlot()).equals(ability.getId())) {
+			return false;
+		}
+		if (getCooldown(ability.getId()) > 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Adds a cool-down to a specific ability
+	 * @param ability String id of the ability
+	 * @param cooldown Long cool-down duration to be added (in m/s)
+	 */
+	public void addCooldown(String ability, long cooldown) {
+		HashMap<String, Long> cooldowns = new HashMap<>();
+		if (AvatarProjectCore.get().getCooldownService().getCooldowns().containsKey(getUniqueId())) {
+			cooldowns = AvatarProjectCore.get().getCooldownService().getCooldowns().get(getUniqueId());
+		}
+		cooldowns.put(ability, System.currentTimeMillis() + cooldown);
+		AvatarProjectCore.get().getCooldownService().getCooldowns().put(getUniqueId(), cooldowns);
+	}
+	
+	/**
+	 * Removes a cool-down from a specific ability
+	 * @param ability String id of the ability
+	 */
+	public void removeCooldown(String ability) {
+		if (AvatarProjectCore.get().getCooldownService().getCooldowns().containsKey(getUniqueId())) {
+			HashMap<String, Long> cooldowns = AvatarProjectCore.get().getCooldownService().getCooldowns().get(getUniqueId());
+			cooldowns.remove(ability);
+			AvatarProjectCore.get().getCooldownService().getCooldowns().put(getUniqueId(), cooldowns);
+		}
+	}
+	
+	/**
+	 * Gets the cool-down of a specific ability
+	 * @param ability String id of the ability
+	 * @return Long time of when the cool-down should end
+	 */
+	public long getCooldown(String ability) {
+		if (AvatarProjectCore.get().getCooldownService().getCooldowns().containsKey(getUniqueId())) {
+			HashMap<String, Long> cooldowns = AvatarProjectCore.get().getCooldownService().getCooldowns().get(getUniqueId());
+			if (cooldowns.containsKey(ability)) {
+				return cooldowns.get(ability);
+			}
+		}
+		return 0;
+	}
 
 	/**
 	 * Returns the player from the UUID
@@ -410,7 +467,7 @@ public class APCPlayer extends Serializer {
 						apcp.unload();
 					}
 				}
-			}.runTaskLaterAsynchronously(AvatarProjectCore.getInstance(), 60*20l);
+			}.runTaskLaterAsynchronously(AvatarProjectCore.get(), 60*20l);
 		}
 		return PLAYERS.get(uuid);
 	}

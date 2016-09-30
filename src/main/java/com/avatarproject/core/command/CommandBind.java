@@ -43,7 +43,7 @@ public class CommandBind extends APCommand {
 		}
 		Player player = (Player) sender;
 		APCPlayer apcp = APCPlayer.get(player);
-		BaseAbilityProvider bap = BaseAbilityProvider.fromString(args.get(0).toLowerCase());
+		BaseAbilityProvider bap = BaseAbilityProvider.get(args.get(0).toLowerCase());
 		if (bap == null || bap.isHidden()) {
 			player.sendMessage(Strings.COMMAND_ERROR_INVALID_ABILITY.toString(true));
 			return;

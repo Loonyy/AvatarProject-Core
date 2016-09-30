@@ -103,7 +103,7 @@ public abstract class Config implements IConfig {
 	}
 
 	public static void loadConfigurations() {
-		loadConfigurations(AvatarProjectCore.getInstance(), "com.avatarproject");
+		loadConfigurations(AvatarProjectCore.get(), "com.avatarproject");
 	}
 	
 	public static void loadConfigurations(JavaPlugin plugin, String packageName) {

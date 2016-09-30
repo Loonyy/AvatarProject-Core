@@ -65,7 +65,7 @@ public abstract class BaseAbilityProvider implements IBaseAbilityProvider, Abili
 		setElement(element);
 		setPassive(passive);
 		setHidden(hidden);
-		AvatarProjectCore.getInstance().getLogger().info("[Debug] Registering new ability id: " + id + " name: " + name);
+		AvatarProjectCore.get().getLogger().info("[Debug] Registering new ability id: " + id + " name: " + name);
 		ABILITIES.put(id, this);
 	}
 
@@ -172,7 +172,7 @@ public abstract class BaseAbilityProvider implements IBaseAbilityProvider, Abili
 	 * @param id String id of the ability
 	 * @return BaseAbilityProvider instance of the ability
 	 */
-	public static BaseAbilityProvider fromString(String id) {
+	public static BaseAbilityProvider get(String id) {
 		if (isValidAbility(id)) {
 			return getAbilities().get(id);
 		}
@@ -204,7 +204,7 @@ public abstract class BaseAbilityProvider implements IBaseAbilityProvider, Abili
 	 * Registers all the abilities in AvatarProject-Core
 	 */
 	public static void registerAbilities() {
-		registerAbilities(AvatarProjectCore.getInstance(), "com.avatarproject");
+		registerAbilities(AvatarProjectCore.get(), "com.avatarproject");
 	}
 	
 	/**

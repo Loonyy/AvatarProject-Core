@@ -22,6 +22,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.avatarproject.core.ability.FireAbility;
+import com.avatarproject.core.player.APCPlayer;
 
 public class FireBlast extends FireAbility {
 
@@ -60,12 +61,14 @@ public class FireBlast extends FireAbility {
 
 	@Override
 	public void start() {
-
+		if (!charged) {
+			APCPlayer.get(player).addCooldown("fireblast", 2000);
+		}
 	}
 
 	@Override
 	public void stop() {
-
+		
 	}
 
 	@Override

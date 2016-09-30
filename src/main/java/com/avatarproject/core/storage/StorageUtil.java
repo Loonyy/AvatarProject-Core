@@ -30,6 +30,6 @@ public class StorageUtil {
 	 * @return File file
 	 */
 	public static File getJSONFile(String path, String name) {
-		return new File(AvatarProjectCore.getInstance().getDataFolder() + File.separator + path + File.separator + name + ".json");
+		return new File(AvatarProjectCore.get().getDataFolder() + File.separator + path + File.separator + name + ".json");
 	}
 }

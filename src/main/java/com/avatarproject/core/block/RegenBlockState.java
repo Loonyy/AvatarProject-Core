@@ -72,7 +72,7 @@ public class RegenBlockState {
 					}
 				}
 			}
-		}.runTaskTimer(AvatarProjectCore.getInstance(), 0, 1);
+		}.runTaskTimer(AvatarProjectCore.get(), 0, 1);
 	}
 
 	/**

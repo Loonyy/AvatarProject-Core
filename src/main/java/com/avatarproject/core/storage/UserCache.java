@@ -36,7 +36,7 @@ public class UserCache {
 	private static File usercache;
 
 	public UserCache() {
-		usercache = new File(AvatarProjectCore.getInstance().getDataFolder() + File.separator + "usercache.json");
+		usercache = new File(AvatarProjectCore.get().getDataFolder() + File.separator + "usercache.json");
 		create(usercache);
 	}
 
@@ -86,7 +86,7 @@ public class UserCache {
 			public void run() {
 				addUser(player);
 			}
-		}.runTaskAsynchronously(AvatarProjectCore.getInstance());
+		}.runTaskAsynchronously(AvatarProjectCore.get());
 	}
 	
 	/**
@@ -135,7 +135,7 @@ public class UserCache {
 			try {
 				file.getParentFile().mkdirs();
 			} catch (Exception e) {
-				AvatarProjectCore.getInstance().getLogger().info("Failed to generate directory!");
+				AvatarProjectCore.get().getLogger().info("Failed to generate directory!");
 				e.printStackTrace();
 			}
 		}
@@ -144,7 +144,7 @@ public class UserCache {
 			try {
 				file.createNewFile();
 			} catch (Exception e) {
-				AvatarProjectCore.getInstance().getLogger().info("Failed to generate " + file.getName() + "!");
+				AvatarProjectCore.get().getLogger().info("Failed to generate " + file.getName() + "!");
 				e.printStackTrace();
 			}
 		}

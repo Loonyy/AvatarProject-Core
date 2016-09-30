@@ -19,6 +19,7 @@ package com.avatarproject.core.ability.fire;
 
 import org.bukkit.entity.Player;
 
+import com.avatarproject.core.ability.BaseAbilityProvider;
 import com.avatarproject.core.ability.FireAbilityProvider;
 import com.avatarproject.core.exception.AbilityRegisteredException;
 import com.avatarproject.core.player.APCPlayer;
@@ -42,10 +43,7 @@ public class FireBlastChargedProvider extends FireAbilityProvider {
 	public Trigger getTrigger() {
 		return () -> Sequence.builder()
 				.action(Actions.SHIFT_DOWN)
-				.condition((player, event) -> {
-					String ability = APCPlayer.get(player).getAbility(player.getInventory().getHeldItemSlot());
-					return ability != null && ability.equals("fireblast");
-				})
+				.condition((player, event) -> APCPlayer.get(player).canBend(BaseAbilityProvider.get("fireblast")))
 				.build();
 	}
 }
